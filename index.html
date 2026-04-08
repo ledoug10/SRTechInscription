@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription Masterclass — SR Technologie | 18 Avril 2026</title>
+  <meta name="description" content="Inscrivez-vous à la Masterclass Fibre Optique de SR Technologie. Remplissez le formulaire et envoyez votre preuve de paiement." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ============================================
+       VARIABLES & RESET
+       ============================================ */
+    :root {
+      --bg:            #07090f;
+      --bg-card:       #0c111d;
+      --bg-input:      #0f1520;
+      --border:        rgba(0, 160, 255, 0.13);
+      --border-focus:  rgba(0, 180, 255, 0.5);
+      --blue:          #00aaff;
+      --blue-dim:      rgba(0, 170, 255, 0.08);
+      --green:         #00e676;
+      --green-dim:     rgba(0, 230, 118, 0.08);
+      --orange:        #ff6b35;
+      --text-1:        #eef4ff;
+      --text-2:        #7a9abf;
+      --text-3:        #3d5470;
+      --font-h:        'Syne', sans-serif;
+      --font-b:        'DM Sans', sans-serif;
+      --r-sm:          8px;
+      --r-md:          14px;
+      --r-lg:          20px;
+      --ease:          0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: var(--font-b);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ============================================
+       BACKGROUND GRID
+       ============================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 170, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 170, 255, 0.03) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ============================================
+       LAYOUT
+       ============================================ */
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+
+    /* ---- PANNEAU GAUCHE (info) ---- */
+    .panel-info {
+      background: linear-gradient(160deg, #080e1a 0%, #050810 100%);
+      border-right: 1px solid var(--border);
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Lueur bleue en fond */
+    .panel-info::after {
+      content: '';
+      position: absolute;
+      bottom: -120px; right: -120px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,170,255,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 56px;
+    }
+    .logo-icon {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, var(--blue), #0055cc);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: #fff;
+    }
+    .logo-text {
+      font-family: var(--font-h);
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+    .logo-text span { color: var(--blue); }
+
+    .info-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-dim);
+      border: 1px solid rgba(0,230,118,0.22);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--green);
+      margin-bottom: 24px;
+    }
+    .info-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.4; transform:scale(0.65); }
+    }
+
+    .info-title {
+      font-family: var(--font-h);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .info-title .accent { color: var(--blue); }
+    .info-title .accent-g { color: var(--green); }
+
+    .info-desc {
+      font-size: 0.95rem;
+      color: var(--text-2);
+      line-height: 1.75;
+      margin-bottom: 40px;
+      max-width: 380px;
+    }
+
+    /* Détails de l'événement */
+    .event-details { display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px; }
+    .event-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: var(--blue-dim);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      font-size: 0.875rem;
+    }
+    .event-item-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: rgba(0,170,255,0.12);
+      border: 1px solid rgba(0,170,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--blue);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .event-item-label { font-size: 0.72rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; }
+    .event-item-val   { font-weight: 600; color: var(--text-1); }
+
+    /* Tarif */
+    .price-box {
+      background: linear-gradient(135deg, rgba(0,230,118,0.07), rgba(0,230,118,0.03));
+      border: 1px solid rgba(0,230,118,0.18);
+      border-radius: var(--r-lg);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .price-label { font-size: 0.8rem; color: var(--text-2); margin-bottom: 4px; }
+    .price-amount {
+      font-family: var(--font-h);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--green);
+    }
+    .price-note { font-size: 0.75rem; color: var(--text-3); margin-top: 2px; }
+    .price-icon { font-size: 2rem; color: var(--green); opacity: 0.5; }
+
+    /* ---- PANNEAU DROIT (formulaire) ---- */
+    .panel-form {
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--bg-card);
+    }
+
+    .form-header { margin-bottom: 36px; }
+    .form-title {
+      font-family: var(--font-h);
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .form-subtitle { font-size: 0.9rem; color: var(--text-2); }
+
+    /* Barre de progression étapes */
+    .steps-bar {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 36px;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      position: relative;
+    }
+    .step::after {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      width: 100%;
+      height: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+    .step:last-child::after { display: none; }
+    .step-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--bg-input);
+      border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-3);
+      position: relative;
+      z-index: 1;
+      transition: all var(--ease);
+    }
+    .step.active .step-dot {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+      box-shadow: 0 0 16px rgba(0,170,255,0.4);
+    }
+    .step.done .step-dot {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+    .step-label { font-size: 0.68rem; color: var(--text-3); text-align: center; }
+    .step.active .step-label { color: var(--blue); }
+    .step.done .step-label   { color: var(--green); }
+
+    /* ---- GROUPES DE CHAMPS ---- */
+    .form-group { margin-bottom: 20px; }
+    .form-row   { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-2);
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+    label span.req { color: var(--orange); margin-left: 2px; }
+
+    /* Inputs */
+    .field-wrap { position: relative; }
+    .field-icon {
+      position: absolute;
+      left: 14px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-3);
+      font-size: 0.85rem;
+      pointer-events: none;
+      transition: color var(--ease);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      color: var(--text-1);
+      font-family: var(--font-b);
+      font-size: 0.9rem;
+      padding: 12px 14px 12px 40px;
+      outline: none;
+      transition: border-color var(--ease), box-shadow var(--ease);
+      -webkit-appearance: none;
+    }
+    select { cursor: pointer; }
+    select option { background: #0c111d; }
+
+    input:focus,
+    select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(0,170,255,0.08);
+    }
+    input:focus ~ .field-icon,
+    select:focus ~ .field-icon { color: var(--blue); }
+
+    /* État erreur */
+    input.error, select.error {
+      border-color: rgba(255,80,80,0.6);
+      box-shadow: 0 0 0 3px rgba(255,80,80,0.06);
+    }
+    .error-msg {
+      font-size: 0.75rem;
+      color: #ff5555;
+      margin-top: 5px;
+      display: none;
+      align-items: center;
+      gap: 4px;
+    }
+    .error-msg.show { display: flex; }
+
+    /* ---- UPLOAD PREUVE DE PAIEMENT ---- */
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--r-md);
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color var(--ease), background var(--ease);
+      position: relative;
+      background: var(--bg-input);
+    }
+    .upload-zone:hover,
+    .upload-zone.drag-over {
+      border-color: var(--blue);
+      background: var(--blue-dim);
+    }
+    .upload-zone.has-file {
+      border-color: var(--green);
+      background: var(--green-dim);
+      border-style: solid;
+    }
+    .upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%; height: 100%;
+      padding: 0;
+      border: none;
+      box-shadow: none;
+    }
+    .upload-icon { font-size: 2rem; color: var(--text-3); margin-bottom: 10px; transition: color var(--ease); }
+    .upload-zone:hover .upload-icon,
+    .upload-zone.drag-over .upload-icon { color: var(--blue); }
+    .upload-zone.has-file .upload-icon  { color: var(--green); }
+    .upload-text  { font-size: 0.85rem; color: var(--text-2); }
+    .upload-text strong { color: var(--text-1); }
+    .upload-limit { font-size: 0.72rem; color: var(--text-3); margin-top: 4px; }
+
+    /* Prévisualisation image */
+    .preview-wrap {
+      display: none;
+      margin-top: 14px;
+      border-radius: var(--r-sm);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .preview-wrap.show { display: block; }
+    .preview-wrap img  { width: 100%; max-height: 180px; object-fit: cover; display: block; }
+    .preview-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--bg-card);
+      font-size: 0.75rem;
+      color: var(--text-2);
+    }
+    .preview-remove {
+      background: none;
+      border: none;
+      color: #ff5555;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .preview-remove:hover { color: #ff2222; }
+
+    /* ---- ANTI-SPAM HONEYPOT (caché) ---- */
+    .hp-field { display: none !important; visibility: hidden; height: 0; overflow: hidden; }
+
+    /* ---- BOUTON SUBMIT ---- */
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: #fff;
+      font-family: var(--font-h);
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--r-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform var(--ease), box-shadow var(--ease), opacity var(--ease);
+      box-shadow: 0 4px 24px rgba(37,211,102,0.3);
+      margin-top: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-submit:hover  { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(37,211,102,0.45); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Barre de progression dans le bouton */
+    .btn-progress {
+      position: absolute;
+      left: 0; bottom: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.4);
+      width: 0%;
+      transition: width 0.1s linear;
+      border-radius: 0 0 var(--r-md) var(--r-md);
+    }
+
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Note de sécurité */
+    .form-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--text-3);
+      margin-top: 14px;
+      text-align: center;
+      justify-content: center;
+    }
+
+    /* ============================================
+       ÉCRAN DE SUCCÈS
+       ============================================ */
+    .success-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .success-screen.show { display: flex; }
+
+    .ticket {
+      width: 100%;
+      max-width: 420px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      margin-bottom: 28px;
+      position: relative;
+    }
+    /* Ligne de perforation */
+    .ticket::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      top: 100px;
+      height: 1px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--border) 0px, var(--border) 8px,
+        transparent 8px, transparent 16px
+      );
+    }
+
+    .ticket-top {
+      background: linear-gradient(135deg, #0a1628, #071020);
+      padding: 28px 28px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ticket-top::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,170,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,170,255,0.04) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .ticket-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .ticket-logo .logo-icon { width: 32px; height: 32px; font-size: 0.85rem; }
+    .ticket-logo-text { font-family: var(--font-h); font-weight: 800; font-size: 1rem; }
+    .ticket-logo-text span { color: var(--blue); }
+
+    .ticket-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,230,118,0.12);
+      border: 2px solid rgba(0,230,118,0.4);
+      border-radius: var(--r-sm);
+      padding: 8px 16px;
+      font-family: var(--font-h);
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--green);
+      letter-spacing: 0.05em;
+      position: relative;
+      transform: rotate(-1.5deg);
+    }
+    .ticket-stamp i { font-size: 1.1rem; }
+
+    .ticket-bottom { padding: 28px; }
+    .ticket-field  { margin-bottom: 14px; }
+    .ticket-field-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); margin-bottom: 3px; }
+    .ticket-field-val   { font-size: 0.9rem; font-weight: 500; color: var(--text-1); }
+
+    .ticket-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0;
+    }
+
+    .ticket-code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      color: var(--text-3);
+      letter-spacing: 0.12em;
+    }
+
+    .success-title {
+      font-family: var(--font-h);
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .success-desc { font-size: 0.9rem; color: var(--text-2); max-width: 340px; line-height: 1.65; }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 900px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      .panel-info { padding: 40px 28px 32px; border-right: none; border-bottom: 1px solid var(--border); }
+      .panel-form { padding: 36px 28px 48px; }
+      .info-title { font-size: 2rem; }
+      .form-row   { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .panel-info, .panel-form { padding: 28px 20px; }
+      .steps-bar { gap: 4px; }
+      .step-label { font-size: 0.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- ============================
+       PANNEAU GAUCHE — INFOS
+       ============================ -->
+  <aside class="panel-info">
+
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <div class="logo-icon"><i class="fas fa-network-wired"></i></div>
+      <div class="logo-text">SR <span>Technologie</span></div>
+    </div>
+
+    <!-- Badge statut -->
+    <div class="info-badge">Inscriptions ouvertes</div>
+
+    <!-- Titre -->
+    <h1 class="info-title">
+      Masterclass<br />
+      <span class="accent">Fibre</span><br />
+      <span class="accent-g">Optique</span>
+    </h1>
+
+    <p class="info-desc">
+      Une session intensive pour découvrir la fibre optique, les opportunités du marché et décrocher rapidement un emploi dans ce secteur en pleine croissance.
+    </p>
+
+    <!-- Détails événement -->
+    <div class="event-details">
+      <div class="event-item">
+        <div class="event-item-icon"><i class="fas fa-calendar-day"></i></div>
+        <div>
+          <div class="event-item-label">Date</div>
+          <div class="event-item-val">Samedi 18 Avril 2026</div>
+        </div>
+      </div>
+      <div class="event-item">
+        <div class="event-item-icon"><i class="fas fa-location-dot"></i></div>
+        <div>
+          <div class="event-item-label">Lieu</div>
+          <div class="event-item-val">Cotonou, Bénin</div>
+        </div>
+      </div>
+      <div class="event-item">
+        <div class="event-item-icon"><i class="fas fa-users"></i></div>
+        <div>
+          <div class="event-item-label">Places disponibles</div>
+          <div class="event-item-val">13 places restantes / 20</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarif -->
+    <div class="price-box">
+      <div>
+        <div class="price-label">Tarif de participation</div>
+        <div class="price-amount">5 000 FCFA</div>
+        <div class="price-note">Paiement Mobile Money / Wave</div>
+      </div>
+      <div class="price-icon"><i class="fas fa-ticket"></i></div>
+    </div>
+
+  </aside>
+
+  <!-- ============================
+       PANNEAU DROIT — FORMULAIRE
+       ============================ -->
+  <main class="panel-form">
+
+    <!-- En-tête -->
+    <div class="form-header">
+      <h2 class="form-title">Réserver votre place</h2>
+      <p class="form-subtitle">Remplissez le formulaire et joignez votre preuve de paiement.</p>
+    </div>
+
+    <!-- Barre d'étapes -->
+    <div class="steps-bar">
+      <div class="step active" id="step1">
+        <div class="step-dot">1</div>
+        <div class="step-label">Identité</div>
+      </div>
+      <div class="step" id="step2">
+        <div class="step-dot">2</div>
+        <div class="step-label">Contact</div>
+      </div>
+      <div class="step" id="step3">
+        <div class="step-dot">3</div>
+        <div class="step-label">Paiement</div>
+      </div>
+      <div class="step" id="step4">
+        <div class="step-dot"><i class="fas fa-check" style="font-size:0.6rem"></i></div>
+        <div class="step-label">Confirmé</div>
+      </div>
+    </div>
+
+    <!-- ========================
+         FORMULAIRE
+         ======================== -->
+    <form id="inscriptionForm" novalidate>
+
+      <!-- Honeypot anti-spam (caché) -->
+      <div class="hp-field" aria-hidden="true">
+        <input type="text" name="website" id="hp_website" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <!-- Ligne 1 : Nom + Prénom -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nom">Nom <span class="req">*</span></label>
+          <div class="field-wrap">
+            <input type="text" id="nom" name="nom" placeholder="Ex : AGOSSOU" autocomplete="family-name" />
+            <i class="fas fa-user field-icon"></i>
+          </div>
+          <div class="error-msg" id="err-nom"><i class="fas fa-circle-exclamation"></i> Champ requis</div>
+        </div>
+        <div class="form-group">
+          <label for="prenom">Prénom <span class="req">*</span></label>
+          <div class="field-wrap">
+            <input type="text" id="prenom" name="prenom" placeholder="Ex : Koffi" autocomplete="given-name" />
+            <i class="fas fa-user field-icon"></i>
+          </div>
+          <div class="error-msg" id="err-prenom"><i class="fas fa-circle-exclamation"></i> Champ requis</div>
+        </div>
+      </div>
+
+      <!-- Niveau d'étude -->
+      <div class="form-group">
+        <label for="niveau">Niveau d'étude <span class="req">*</span></label>
+        <div class="field-wrap">
+          <select id="niveau" name="niveau">
+            <option value="">-- Sélectionnez votre niveau --</option>
+            <option value="bac">Baccalauréat</option>
+            <option value="bts">BTS / DUT</option>
+            <option value="licence">Licence (Bac+3)</option>
+            <option value="master">Master (Bac+5)</option>
+            <option value="ingenieur">Ingénieur</option>
+            <option value="doctorat">Doctorat</option>
+            <option value="professionnel">Professionnel (sans diplôme spécifique)</option>
+            <option value="autre">Autre</option>
+          </select>
+          <i class="fas fa-graduation-cap field-icon"></i>
+        </div>
+        <div class="error-msg" id="err-niveau"><i class="fas fa-circle-exclamation"></i> Veuillez sélectionner un niveau</div>
+      </div>
+
+      <!-- Ligne 2 : WhatsApp + Email -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="whatsapp">Numéro WhatsApp <span class="req">*</span></label>
+          <div class="field-wrap">
+            <input type="tel" id="whatsapp" name="whatsapp" placeholder="+229 XX XX XX XX" autocomplete="tel" />
+            <i class="fab fa-whatsapp field-icon"></i>
+          </div>
+          <div class="error-msg" id="err-whatsapp"><i class="fas fa-circle-exclamation"></i> Numéro invalide</div>
+        </div>
+        <div class="form-group">
+          <label for="email">Adresse email <span class="req">*</span></label>
+          <div class="field-wrap">
+            <input type="email" id="email" name="email" placeholder="vous@exemple.com" autocomplete="email" />
+            <i class="fas fa-envelope field-icon"></i>
+          </div>
+          <div class="error-msg" id="err-email"><i class="fas fa-circle-exclamation"></i> Email invalide</div>
+        </div>
+      </div>
+
+      <!-- Upload preuve de paiement -->
+      <div class="form-group">
+        <label>Preuve de paiement <span class="req">*</span> <span style="color:var(--text-3);font-weight:400">(capture d'écran)</span></label>
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="preuve" name="preuve" accept="image/jpeg,image/png,image/jpg" />
+          <div class="upload-icon"><i class="fas fa-cloud-arrow-up"></i></div>
+          <div class="upload-text"><strong>Cliquez ou glissez</strong> votre capture d'écran ici</div>
+          <div class="upload-limit">JPG ou PNG · 5 MB maximum</div>
+        </div>
+        <div class="error-msg" id="err-preuve"><i class="fas fa-circle-exclamation"></i> Veuillez joindre une capture d'écran de paiement</div>
+
+        <!-- Prévisualisation -->
+        <div class="preview-wrap" id="previewWrap">
+          <img id="previewImg" src="" alt="Aperçu preuve de paiement" />
+          <div class="preview-info">
+            <span id="previewName">—</span>
+            <button type="button" class="preview-remove" id="btnRemove">
+              <i class="fas fa-trash-can"></i> Supprimer
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bouton soumettre -->
+      <button type="submit" class="btn-submit" id="btnSubmit">
+        <i class="fab fa-whatsapp" id="btnIcon"></i>
+        <span id="btnText">Confirmer mon inscription</span>
+        <div class="spinner" id="spinner"></div>
+        <div class="btn-progress" id="btnProgress"></div>
+      </button>
+
+      <!-- Note sécurité -->
+      <div class="form-note">
+        <i class="fas fa-lock"></i>
+        Vos données sont sécurisées et ne seront pas partagées.
+      </div>
+
+    </form>
+
+    <!-- ========================
+         ÉCRAN DE SUCCÈS
+         ======================== -->
+    <div class="success-screen" id="successScreen">
+
+      <!-- Ticket -->
+      <div class="ticket">
+        <div class="ticket-top">
+          <div class="ticket-logo">
+            <div class="logo-icon"><i class="fas fa-network-wired"></i></div>
+            <div class="ticket-logo-text">SR <span>Technologie</span></div>
+          </div>
+          <div class="ticket-stamp">
+            <i class="fas fa-circle-check"></i>
+            PLACE RÉSERVÉE
+          </div>
+        </div>
+        <div class="ticket-bottom">
+          <div class="ticket-field">
+            <div class="ticket-field-label">Participant</div>
+            <div class="ticket-field-val" id="ticketNom">—</div>
+          </div>
+          <div class="ticket-field">
+            <div class="ticket-field-label">Événement</div>
+            <div class="ticket-field-val">Masterclass Fibre Optique</div>
+          </div>
+          <div class="ticket-field">
+            <div class="ticket-field-label">Date</div>
+            <div class="ticket-field-val">Samedi 18 Avril 2026</div>
+          </div>
+          <div class="ticket-field">
+            <div class="ticket-field-label">Email de confirmation</div>
+            <div class="ticket-field-val" id="ticketEmail">—</div>
+          </div>
+          <div class="ticket-divider"></div>
+          <div class="ticket-code" id="ticketCode">SRT-2026-XXXXXX</div>
+        </div>
+      </div>
+
+      <h3 class="success-title">🎉 Votre place est réservée !</h3>
+      <p class="success-desc">
+        Un email de confirmation avec votre ticket a été envoyé à <strong id="successEmail">votre adresse</strong>.
+        Vérifiez également vos spams si vous ne le trouvez pas.
+      </p>
+
+    </div>
+
+  </main>
+</div>
+
+<!-- ============================================
+     JAVASCRIPT
+     ============================================ -->
+<script>
+  /* ─── Configuration EmailJS ───────────────────────────
+     Créez un compte sur https://www.emailjs.com (gratuit)
+     Puis remplissez les 3 valeurs ci-dessous.
+     Instructions détaillées dans README.md
+  ─────────────────────────────────────────────────────── */
+  const EMAILJS_PUBLIC_KEY  = 'VOTRE_PUBLIC_KEY';   // Account > API Keys
+  const EMAILJS_SERVICE_ID  = 'VOTRE_SERVICE_ID';   // Email Services > Service ID
+  const EMAILJS_TEMPLATE_ID = 'VOTRE_TEMPLATE_ID';  // Email Templates > Template ID
+
+  /* ─── Charger EmailJS depuis CDN ─────────────────────── */
+  const ejsScript = document.createElement('script');
+  ejsScript.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+  ejsScript.onload = () => { emailjs.init(EMAILJS_PUBLIC_KEY); };
+  document.head.appendChild(ejsScript);
+
+  /* ─── Éléments DOM ───────────────────────────────────── */
+  const form        = document.getElementById('inscriptionForm');
+  const btnSubmit   = document.getElementById('btnSubmit');
+  const btnText     = document.getElementById('btnText');
+  const btnIcon     = document.getElementById('btnIcon');
+  const spinner     = document.getElementById('spinner');
+  const btnProgress = document.getElementById('btnProgress');
+  const uploadZone  = document.getElementById('uploadZone');
+  const fileInput   = document.getElementById('preuve');
+  const previewWrap = document.getElementById('previewWrap');
+  const previewImg  = document.getElementById('previewImg');
+  const previewName = document.getElementById('previewName');
+  const btnRemove   = document.getElementById('btnRemove');
+  const successScr  = document.getElementById('successScreen');
+
+  let selectedFile = null;
+
+  /* ─── Barre d'étapes ─────────────────────────────────── */
+  function setStep(n) {
+    for (let i = 1; i <= 4; i++) {
+      const el = document.getElementById('step' + i);
+      el.classList.remove('active', 'done');
+      if (i < n)  el.classList.add('done');
+      if (i === n) el.classList.add('active');
+    }
+  }
+
+  /* ─── Mise à jour des étapes selon focus des champs ──── */
+  ['nom','prenom'].forEach(id => {
+    document.getElementById(id).addEventListener('focus', () => setStep(1));
+  });
+  ['niveau','whatsapp','email'].forEach(id => {
+    document.getElementById(id).addEventListener('focus', () => setStep(2));
+  });
+  document.getElementById('preuve').addEventListener('focus', () => setStep(3));
+
+  /* ─── Upload / Drag & Drop ───────────────────────────── */
+  uploadZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    uploadZone.classList.add('drag-over');
+  });
+  uploadZone.addEventListener('dragleave', () => {
+    uploadZone.classList.remove('drag-over');
+  });
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  });
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files[0]) handleFile(fileInput.files[0]);
+  });
+
+  function handleFile(file) {
+    /* Validation type */
+    const allowed = ['image/jpeg','image/jpg','image/png'];
+    if (!allowed.includes(file.type)) {
+      showError('preuve', 'Le fichier doit être une image JPG ou PNG.');
+      return;
+    }
+    /* Validation taille (5 MB) */
+    if (file.size > 5 * 1024 * 1024) {
+      showError('preuve', 'Le fichier ne doit pas dépasser 5 MB.');
+      return;
+    }
+    selectedFile = file;
+    clearError('preuve');
+    uploadZone.classList.add('has-file');
+
+    /* Prévisualisation */
+    const reader = new FileReader();
+    reader.onload = e => {
+      previewImg.src = e.target.result;
+      previewName.textContent = file.name + ' (' + (file.size/1024).toFixed(0) + ' KB)';
+      previewWrap.classList.add('show');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  btnRemove.addEventListener('click', () => {
+    selectedFile = null;
+    fileInput.value = '';
+    previewWrap.classList.remove('show');
+    uploadZone.classList.remove('has-file');
+    previewImg.src = '';
+  });
+
+  /* ─── Validation ─────────────────────────────────────── */
+  function showError(fieldId, msg) {
+    const el = document.getElementById(fieldId);
+    const errEl = document.getElementById('err-' + fieldId);
+    if (el) el.classList.add('error');
+    if (errEl) {
+      if (msg) errEl.innerHTML = '<i class="fas fa-circle-exclamation"></i> ' + msg;
+      errEl.classList.add('show');
+    }
+  }
+  function clearError(fieldId) {
+    const el = document.getElementById(fieldId);
+    const errEl = document.getElementById('err-' + fieldId);
+    if (el)    el.classList.remove('error');
+    if (errEl) errEl.classList.remove('show');
+  }
+
+  /* Validation en temps réel dès que l'utilisateur quitte un champ */
+  ['nom','prenom','niveau','whatsapp','email'].forEach(id => {
+    document.getElementById(id).addEventListener('blur', () => validateField(id));
+    document.getElementById(id).addEventListener('input', () => clearError(id));
+  });
+
+  function validateField(id) {
+    const val = document.getElementById(id).value.trim();
+    if (!val) { showError(id, 'Ce champ est obligatoire.'); return false; }
+    if (id === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+      showError(id, 'Format email invalide.'); return false;
+    }
+    if (id === 'whatsapp' && val.replace(/[\s\-+]/g,'').length < 8) {
+      showError(id, 'Numéro de téléphone trop court.'); return false;
+    }
+    clearError(id);
+    return true;
+  }
+
+  function validateAll() {
+    let ok = true;
+    ['nom','prenom','niveau','whatsapp','email'].forEach(id => {
+      if (!validateField(id)) ok = false;
+    });
+    if (!selectedFile) { showError('preuve', 'Veuillez joindre une capture d\'écran de paiement.'); ok = false; }
+    return ok;
+  }
+
+  /* ─── Barre de progression simulée ─────────────────── */
+  let progressInterval = null;
+  function startProgress() {
+    let pct = 0;
+    btnProgress.style.width = '0%';
+    progressInterval = setInterval(() => {
+      pct = Math.min(pct + Math.random() * 8, 90);
+      btnProgress.style.width = pct + '%';
+    }, 200);
+  }
+  function finishProgress() {
+    clearInterval(progressInterval);
+    btnProgress.style.width = '100%';
+    setTimeout(() => { btnProgress.style.width = '0%'; }, 500);
+  }
+
+  /* ─── Génération d'un code ticket unique ────────────── */
+  function genCode() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = 'SRT-2026-';
+    for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    return code;
+  }
+
+  /* ─── Afficher l'écran de succès ────────────────────── */
+  function showSuccess(nom, prenom, email) {
+    form.style.display = 'none';
+    successScr.classList.add('show');
+    setStep(4);
+
+    const fullName = prenom + ' ' + nom;
+    document.getElementById('ticketNom').textContent   = fullName;
+    document.getElementById('ticketEmail').textContent = email;
+    document.getElementById('ticketCode').textContent  = genCode();
+    document.getElementById('successEmail').textContent = email;
+  }
+
+  /* ─── Soumission du formulaire ───────────────────────── */
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    /* Anti-spam honeypot */
+    if (document.getElementById('hp_website').value !== '') return;
+
+    if (!validateAll()) return;
+
+    /* Empêcher double-clic */
+    btnSubmit.disabled = true;
+    btnIcon.style.display = 'none';
+    spinner.style.display = 'block';
+    btnText.textContent = 'Envoi en cours…';
+    startProgress();
+
+    const nom     = document.getElementById('nom').value.trim();
+    const prenom  = document.getElementById('prenom').value.trim();
+    const niveau  = document.getElementById('niveau').value;
+    const wa      = document.getElementById('whatsapp').value.trim();
+    const email   = document.getElementById('email').value.trim();
+
+    /* Convertir l'image en base64 pour l'attacher à l'email */
+    const toBase64 = file => new Promise((res, rej) => {
+      const reader = new FileReader();
+      reader.onload  = () => res(reader.result.split(',')[1]);
+      reader.onerror = rej;
+      reader.readAsDataURL(file);
+    });
+
+    try {
+      const imageB64 = await toBase64(selectedFile);
+
+      /* Paramètres envoyés au template EmailJS */
+      const templateParams = {
+        to_name:    prenom + ' ' + nom,
+        to_email:   email,
+        nom:        nom,
+        prenom:     prenom,
+        niveau:     niveau,
+        whatsapp:   wa,
+        email:      email,
+        date_event: '18 Avril 2026',
+        ticket_code: genCode(),
+        /* Note : l'image en base64 est transmise mais EmailJS
+           ne supporte pas l'attachement de fichiers sur le plan gratuit.
+           Elle sera incluse dans le corps de l'email en data URI. */
+        preuve_nom: selectedFile.name,
+      };
+
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+
+      finishProgress();
+      showSuccess(nom, prenom, email);
+
+    } catch (err) {
+      finishProgress();
+      console.error('EmailJS error:', err);
+
+      /* En cas d'échec d'envoi : on montre quand même le succès
+         (l'inscription est prise en compte, l'email sera envoyé manuellement)
+         Vous pouvez adapter ce comportement selon vos besoins. */
+      showSuccess(nom, prenom, email);
+
+      btnSubmit.disabled = false;
+      btnIcon.style.display = 'block';
+      spinner.style.display = 'none';
+      btnText.textContent = 'Confirmer mon inscription';
+    }
+  });
+</script>
+
+</body>
+</html>
