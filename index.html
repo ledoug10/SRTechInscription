@@ -96,15 +96,27 @@
       background: radial-gradient(circle, rgba(0,170,255,0.07) 0%, transparent 70%);
       pointer-events: none;
     }
+    /* Conteneur pour aligner logo + texte */
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
 
-   
+    .brand-logo {
+      height: 45px; /* Ajustez cette taille selon votre image */
+      width: auto;
+    }
+
     .logo-text {
       font-family: var(--font-h);
       font-weight: 800;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
+      line-height: 1;
     }
     .logo-text span { color: var(--blue); }
-
+    
     .info-badge {
       display: inline-flex;
       align-items: center;
@@ -598,8 +610,8 @@
   <aside class="panel-info">
 
     <!-- Logo -->
-    <div>
-      <img src="logo.png" alt="SR Technologie" />
+    <div class="brand-header">
+      <img src="logo.png" alt="SR Technologie" class="brand-logo" />
       <div class="logo-text">SR <span>Technologie</span></div>
     </div>
 
