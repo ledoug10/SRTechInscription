@@ -1039,8 +1039,7 @@ function showSuccess(nom, prenom, email) {
   document.getElementById('ticketEmail').textContent = email;
   document.getElementById('ticketCode').textContent = genCode();
 }
-
-/* ─── SUBMIT ───────────────────────────────────── */
+/* ─── SUBMIT ───────────────────── */
 form.addEventListener('submit', async e => {
   e.preventDefault();
 
@@ -1056,15 +1055,38 @@ form.addEventListener('submit', async e => {
   startProgress();
 
   try {
-    const formData = new FormData(form);
-    formData.set('preuve', selectedFile);
+    // Convertir le fichier en base64
+    let base64File = null;
+    if (selectedFile) {
+      base64File = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(selectedFile);
+      });
+    }
+
+    const formData = {
+      nom: form.nom.value.trim(),
+      prenom: form.prenom.value.trim(),
+      niveau: form.niveau.value,
+      whatsapp: form.whatsapp.value.trim(),
+      email: form.email.value.trim(),
+      preuve: base64File,
+      website: document.getElementById('hp_website').value
+    };
 
     const response = await fetch('/inscrire', {
       method: 'POST',
-      body: formData
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
     });
 
-    if (!response.ok) throw new Error('Erreur réseau');
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Erreur réseau');
+    }
 
     const result = await response.json();
 
@@ -1084,7 +1106,7 @@ form.addEventListener('submit', async e => {
     console.error(err);
     finishProgress();
 
-    alert("Erreur lors de l'inscription");
+    alert("Erreur lors de l'inscription: " + err.message);
 
     btnSubmit.disabled = false;
     btnIcon.style.display = 'block';
