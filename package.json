@@ -2,10 +2,10 @@
   "name": "sr-technologie-inscription",
   "version": "1.0.0",
   "description": "Formulaire d'inscription Masterclass SR Technologie avec envoi d'email automatique",
-  "main": "server.js",
+  "main": "api/inscrire.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "npx nodemon server.js"
+    "start": "node inscrire.js",
+    "dev": "npx nodemon inscrire.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
