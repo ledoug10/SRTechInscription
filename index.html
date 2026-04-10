@@ -860,20 +860,6 @@
      JAVASCRIPT
      ============================================ -->
 <script>
-  /* ─── Configuration EmailJS ───────────────────────────
-     Créez un compte sur https://www.emailjs.com (gratuit)
-     Puis remplissez les 3 valeurs ci-dessous.
-     Instructions détaillées dans README.md
-  ─────────────────────────────────────────────────────── */
-  const EMAILJS_PUBLIC_KEY  = 'VOTRE_PUBLIC_KEY';   // Account > API Keys
-  const EMAILJS_SERVICE_ID  = 'VOTRE_SERVICE_ID';   // Email Services > Service ID
-  const EMAILJS_TEMPLATE_ID = 'VOTRE_TEMPLATE_ID';  // Email Templates > Template ID
-
-  /* ─── Charger EmailJS depuis CDN ─────────────────────── */
-  const ejsScript = document.createElement('script');
-  ejsScript.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-  ejsScript.onload = () => { emailjs.init(EMAILJS_PUBLIC_KEY); };
-  document.head.appendChild(ejsScript);
 
   /* ─── Éléments DOM ───────────────────────────────────── */
   const form        = document.getElementById('inscriptionForm');
@@ -1096,7 +1082,36 @@
         preuve_nom: selectedFile.name,
       };
 
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      try {
+        const formData = new FormData();
+        formData.append('nom', nom);
+        formData.append('prenom', prenom);
+        formData.append('niveau', document.getElementById('niveau').value);
+        formData.append('whatsapp', wa);
+        formData.append('email', email);
+        formData.append('preuve', selectedFile);
+
+      const response = await fetch('/inscrire', {
+        method: 'POST',
+        body: formData
+      });
+      const result = await response.json();
+    
+      if (result.success) {
+        finishProgress();
+        showSuccess(nom, prenom, email);
+      } else {
+        throw new Error(result.message || 'Erreur serveur');
+      }
+    } catch (err) {
+  finishProgress();
+  console.error('Erreur:', err);
+  alert('Erreur lors de l\'envoi. Réessayez ou contactez-nous sur WhatsApp.');
+  btnSubmit.disabled = false;
+  btnIcon.style.display = 'block';
+  spinner.style.display = 'none';
+  btnText.textContent = 'Confirmer mon inscription';
+}
 
       finishProgress();
       showSuccess(nom, prenom, email);
