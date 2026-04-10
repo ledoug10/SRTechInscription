@@ -860,278 +860,238 @@
      JAVASCRIPT
      ============================================ -->
 <script>
+/* ─── Éléments DOM ───────────────────────────────────── */
+const form        = document.getElementById('inscriptionForm');
+const btnSubmit   = document.getElementById('btnSubmit');
+const btnText     = document.getElementById('btnText');
+const btnIcon     = document.getElementById('btnIcon');
+const spinner     = document.getElementById('spinner');
+const btnProgress = document.getElementById('btnProgress');
+const uploadZone  = document.getElementById('uploadZone');
+const fileInput   = document.getElementById('preuve');
+const previewWrap = document.getElementById('previewWrap');
+const previewImg  = document.getElementById('previewImg');
+const previewName = document.getElementById('previewName');
+const btnRemove   = document.getElementById('btnRemove');
+const successScr  = document.getElementById('successScreen');
 
-  /* ─── Éléments DOM ───────────────────────────────────── */
-  const form        = document.getElementById('inscriptionForm');
-  const btnSubmit   = document.getElementById('btnSubmit');
-  const btnText     = document.getElementById('btnText');
-  const btnIcon     = document.getElementById('btnIcon');
-  const spinner     = document.getElementById('spinner');
-  const btnProgress = document.getElementById('btnProgress');
-  const uploadZone  = document.getElementById('uploadZone');
-  const fileInput   = document.getElementById('preuve');
-  const previewWrap = document.getElementById('previewWrap');
-  const previewImg  = document.getElementById('previewImg');
-  const previewName = document.getElementById('previewName');
-  const btnRemove   = document.getElementById('btnRemove');
-  const successScr  = document.getElementById('successScreen');
+let selectedFile = null;
 
-  let selectedFile = null;
-
-  /* ─── Barre d'étapes ─────────────────────────────────── */
-  function setStep(n) {
-    for (let i = 1; i <= 4; i++) {
-      const el = document.getElementById('step' + i);
-      el.classList.remove('active', 'done');
-      if (i < n)  el.classList.add('done');
-      if (i === n) el.classList.add('active');
-    }
+/* ─── Étapes UI ───────────────────────────────────── */
+function setStep(n) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('step' + i);
+    el.classList.remove('active', 'done');
+    if (i < n) el.classList.add('done');
+    if (i === n) el.classList.add('active');
   }
-
-  /* ─── Mise à jour des étapes selon focus des champs ──── */
-  ['nom','prenom'].forEach(id => {
-    document.getElementById(id).addEventListener('focus', () => setStep(1));
-  });
-  ['niveau','whatsapp','email'].forEach(id => {
-    document.getElementById(id).addEventListener('focus', () => setStep(2));
-  });
-  document.getElementById('preuve').addEventListener('focus', () => setStep(3));
-
-  /* ─── Upload / Drag & Drop ───────────────────────────── */
-  uploadZone.addEventListener('dragover', e => {
-    e.preventDefault();
-    uploadZone.classList.add('drag-over');
-  });
-  uploadZone.addEventListener('dragleave', () => {
-    uploadZone.classList.remove('drag-over');
-  });
-  uploadZone.addEventListener('drop', e => {
-    e.preventDefault();
-    uploadZone.classList.remove('drag-over');
-    const file = e.dataTransfer.files[0];
-    if (file) handleFile(file);
-  });
-
-  fileInput.addEventListener('change', () => {
-    if (fileInput.files[0]) handleFile(fileInput.files[0]);
-  });
-
-  function handleFile(file) {
-    /* Validation type */
-    const allowed = ['image/jpeg','image/jpg','image/png'];
-    if (!allowed.includes(file.type)) {
-      showError('preuve', 'Le fichier doit être une image JPG ou PNG.');
-      return;
-    }
-    /* Validation taille (5 MB) */
-    if (file.size > 5 * 1024 * 1024) {
-      showError('preuve', 'Le fichier ne doit pas dépasser 5 MB.');
-      return;
-    }
-    selectedFile = file;
-    clearError('preuve');
-    uploadZone.classList.add('has-file');
-
-    /* Prévisualisation */
-    const reader = new FileReader();
-    reader.onload = e => {
-      previewImg.src = e.target.result;
-      previewName.textContent = file.name + ' (' + (file.size/1024).toFixed(0) + ' KB)';
-      previewWrap.classList.add('show');
-    };
-    reader.readAsDataURL(file);
-  }
-
-  btnRemove.addEventListener('click', () => {
-    selectedFile = null;
-    fileInput.value = '';
-    previewWrap.classList.remove('show');
-    uploadZone.classList.remove('has-file');
-    previewImg.src = '';
-  });
-
-  /* ─── Validation ─────────────────────────────────────── */
-  function showError(fieldId, msg) {
-    const el = document.getElementById(fieldId);
-    const errEl = document.getElementById('err-' + fieldId);
-    if (el) el.classList.add('error');
-    if (errEl) {
-      if (msg) errEl.innerHTML = '<i class="fas fa-circle-exclamation"></i> ' + msg;
-      errEl.classList.add('show');
-    }
-  }
-  function clearError(fieldId) {
-    const el = document.getElementById(fieldId);
-    const errEl = document.getElementById('err-' + fieldId);
-    if (el)    el.classList.remove('error');
-    if (errEl) errEl.classList.remove('show');
-  }
-
-  /* Validation en temps réel dès que l'utilisateur quitte un champ */
-  ['nom','prenom','niveau','whatsapp','email'].forEach(id => {
-    document.getElementById(id).addEventListener('blur', () => validateField(id));
-    document.getElementById(id).addEventListener('input', () => clearError(id));
-  });
-
-  function validateField(id) {
-    const val = document.getElementById(id).value.trim();
-    if (!val) { showError(id, 'Ce champ est obligatoire.'); return false; }
-    if (id === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
-      showError(id, 'Format email invalide.'); return false;
-    }
-    if (id === 'whatsapp' && val.replace(/[\s\-+]/g,'').length < 8) {
-      showError(id, 'Numéro de téléphone trop court.'); return false;
-    }
-    clearError(id);
-    return true;
-  }
-
-  function validateAll() {
-    let ok = true;
-    ['nom','prenom','niveau','whatsapp','email'].forEach(id => {
-      if (!validateField(id)) ok = false;
-    });
-    if (!selectedFile) { showError('preuve', 'Veuillez joindre une capture d\'écran de paiement.'); ok = false; }
-    return ok;
-  }
-
-  /* ─── Barre de progression simulée ─────────────────── */
-  let progressInterval = null;
-  function startProgress() {
-    let pct = 0;
-    btnProgress.style.width = '0%';
-    progressInterval = setInterval(() => {
-      pct = Math.min(pct + Math.random() * 8, 90);
-      btnProgress.style.width = pct + '%';
-    }, 200);
-  }
-  function finishProgress() {
-    clearInterval(progressInterval);
-    btnProgress.style.width = '100%';
-    setTimeout(() => { btnProgress.style.width = '0%'; }, 500);
-  }
-
-  /* ─── Génération d'un code ticket unique ────────────── */
-  function genCode() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    let code = 'SRT-2026-';
-    for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
-    return code;
-  }
-
-  /* ─── Afficher l'écran de succès ────────────────────── */
-  function showSuccess(nom, prenom, email) {
-    form.style.display = 'none';
-    successScr.classList.add('show');
-    setStep(4);
-
-    const fullName = prenom + ' ' + nom;
-    document.getElementById('ticketNom').textContent   = fullName;
-    document.getElementById('ticketEmail').textContent = email;
-    document.getElementById('ticketCode').textContent  = genCode();
-    document.getElementById('successEmail').textContent = email;
-  }
-
-  /* ─── Soumission du formulaire ───────────────────────── */
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-
-    /* Anti-spam honeypot */
-    if (document.getElementById('hp_website').value !== '') return;
-
-    if (!validateAll()) return;
-
-    /* Empêcher double-clic */
-    btnSubmit.disabled = true;
-    btnIcon.style.display = 'none';
-    spinner.style.display = 'block';
-    btnText.textContent = 'Envoi en cours…';
-    startProgress();
-
-    const nom     = document.getElementById('nom').value.trim();
-    const prenom  = document.getElementById('prenom').value.trim();
-    const niveau  = document.getElementById('niveau').value;
-    const wa      = document.getElementById('whatsapp').value.trim();
-    const email   = document.getElementById('email').value.trim();
-
-    /* Convertir l'image en base64 pour l'attacher à l'email */
-    const toBase64 = file => new Promise((res, rej) => {
-      const reader = new FileReader();
-      reader.onload  = () => res(reader.result.split(',')[1]);
-      reader.onerror = rej;
-      reader.readAsDataURL(file);
-    });
-
-    try {
-      const imageB64 = await toBase64(selectedFile);
-
-      /* Paramètres envoyés au template EmailJS */
-      const templateParams = {
-        to_name:    prenom + ' ' + nom,
-        to_email:   email,
-        nom:        nom,
-        prenom:     prenom,
-        niveau:     niveau,
-        whatsapp:   wa,
-        email:      email,
-        date_event: '18 Avril 2026',
-        ticket_code: genCode(),
-        /* Note : l'image en base64 est transmise mais EmailJS
-           ne supporte pas l'attachement de fichiers sur le plan gratuit.
-           Elle sera incluse dans le corps de l'email en data URI. */
-        preuve_nom: selectedFile.name,
-      };
-
-      try {
-        const formData = new FormData();
-        formData.append('nom', nom);
-        formData.append('prenom', prenom);
-        formData.append('niveau', document.getElementById('niveau').value);
-        formData.append('whatsapp', wa);
-        formData.append('email', email);
-        formData.append('preuve', selectedFile);
-
-      const response = await fetch('/inscrire', {
-        method: 'POST',
-        body: formData
-      });
-      const result = await response.json();
-    
-      if (result.success) {
-        finishProgress();
-        showSuccess(nom, prenom, email);
-      } else {
-        throw new Error(result.message || 'Erreur serveur');
-      }
-    } catch (err) {
-  finishProgress();
-  console.error('Erreur:', err);
-  alert('Erreur lors de l\'envoi. Réessayez ou contactez-nous sur WhatsApp.');
-  btnSubmit.disabled = false;
-  btnIcon.style.display = 'block';
-  spinner.style.display = 'none';
-  btnText.textContent = 'Confirmer mon inscription';
 }
 
-      finishProgress();
-      showSuccess(nom, prenom, email);
+/* ─── Focus champs ───────────────────────────────── */
+['nom','prenom'].forEach(id => {
+  document.getElementById(id).addEventListener('focus', () => setStep(1));
+});
+['niveau','whatsapp','email'].forEach(id => {
+  document.getElementById(id).addEventListener('focus', () => setStep(2));
+});
+fileInput.addEventListener('focus', () => setStep(3));
 
-    } catch (err) {
-      finishProgress();
-      console.error('EmailJS error:', err);
+/* ─── Upload fichier ─────────────────────────────── */
+uploadZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  uploadZone.classList.add('drag-over');
+});
+uploadZone.addEventListener('dragleave', () => {
+  uploadZone.classList.remove('drag-over');
+});
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('drag-over');
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
 
-      /* En cas d'échec d'envoi : on montre quand même le succès
-         (l'inscription est prise en compte, l'email sera envoyé manuellement)
-         Vous pouvez adapter ce comportement selon vos besoins. */
-      showSuccess(nom, prenom, email);
+fileInput.addEventListener('change', () => {
+  if (fileInput.files[0]) handleFile(fileInput.files[0]);
+});
 
-      btnSubmit.disabled = false;
-      btnIcon.style.display = 'block';
-      spinner.style.display = 'none';
-      btnText.textContent = 'Confirmer mon inscription';
-    }
+function handleFile(file) {
+  const allowed = ['image/jpeg','image/png'];
+
+  if (!allowed.includes(file.type)) {
+    showError('preuve', 'Image JPG ou PNG uniquement');
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    showError('preuve', 'Max 5MB');
+    return;
+  }
+
+  selectedFile = file;
+  clearError('preuve');
+  uploadZone.classList.add('has-file');
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    previewImg.src = e.target.result;
+    previewName.textContent = file.name;
+    previewWrap.classList.add('show');
+  };
+  reader.readAsDataURL(file);
+}
+
+btnRemove.addEventListener('click', () => {
+  selectedFile = null;
+  fileInput.value = '';
+  previewWrap.classList.remove('show');
+  uploadZone.classList.remove('has-file');
+});
+
+/* ─── Validation ─────────────────────────────────── */
+function showError(id, msg) {
+  document.getElementById(id).classList.add('error');
+  const err = document.getElementById('err-' + id);
+  if (err) {
+    err.textContent = msg;
+    err.classList.add('show');
+  }
+}
+
+function clearError(id) {
+  document.getElementById(id).classList.remove('error');
+  const err = document.getElementById('err-' + id);
+  if (err) err.classList.remove('show');
+}
+
+function validateField(id) {
+  const val = document.getElementById(id).value.trim();
+
+  if (!val) {
+    showError(id, 'Champ obligatoire');
+    return false;
+  }
+
+  if (id === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+    showError(id, 'Email invalide');
+    return false;
+  }
+
+  if (id === 'whatsapp' && val.replace(/\D/g,'').length < 8) {
+    showError(id, 'Numéro invalide');
+    return false;
+  }
+
+  clearError(id);
+  return true;
+}
+
+function validateAll() {
+  let ok = true;
+
+  ['nom','prenom','niveau','whatsapp','email'].forEach(id => {
+    if (!validateField(id)) ok = false;
   });
-</script>
 
+  if (!selectedFile) {
+    showError('preuve', 'Ajoutez une preuve de paiement');
+    ok = false;
+  }
+
+  return ok;
+}
+
+/* ─── Progress bar ─────────────────────────────── */
+let progressInterval;
+
+function startProgress() {
+  let pct = 0;
+  btnProgress.style.width = '0%';
+
+  progressInterval = setInterval(() => {
+    pct = Math.min(pct + 10, 90);
+    btnProgress.style.width = pct + '%';
+  }, 200);
+}
+
+function finishProgress() {
+  clearInterval(progressInterval);
+  btnProgress.style.width = '100%';
+  setTimeout(() => btnProgress.style.width = '0%', 500);
+}
+
+/* ─── Ticket ───────────────────────────────────── */
+function genCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = 'SRT-2026-';
+  for (let i = 0; i < 6; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return code;
+}
+
+/* ─── Success ──────────────────────────────────── */
+function showSuccess(nom, prenom, email) {
+  form.style.display = 'none';
+  successScr.classList.add('show');
+  setStep(4);
+
+  document.getElementById('ticketNom').textContent = prenom + ' ' + nom;
+  document.getElementById('ticketEmail').textContent = email;
+  document.getElementById('ticketCode').textContent = genCode();
+}
+
+/* ─── SUBMIT ───────────────────────────────────── */
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+
+  // Anti-spam
+  if (document.getElementById('hp_website').value !== '') return;
+
+  if (!validateAll()) return;
+
+  btnSubmit.disabled = true;
+  btnIcon.style.display = 'none';
+  spinner.style.display = 'block';
+  btnText.textContent = 'Envoi...';
+  startProgress();
+
+  try {
+    const formData = new FormData(form);
+    formData.set('preuve', selectedFile);
+
+    const response = await fetch('/inscrire', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) throw new Error('Erreur réseau');
+
+    const result = await response.json();
+
+    if (!result.success) {
+      throw new Error(result.message || 'Erreur serveur');
+    }
+
+    finishProgress();
+
+    showSuccess(
+      form.nom.value.trim(),
+      form.prenom.value.trim(),
+      form.email.value.trim()
+    );
+
+  } catch (err) {
+    console.error(err);
+    finishProgress();
+
+    alert("Erreur lors de l'inscription");
+
+    btnSubmit.disabled = false;
+    btnIcon.style.display = 'block';
+    spinner.style.display = 'none';
+    btnText.textContent = 'Confirmer mon inscription';
+  }
+});
+</script>
 </body>
 </html>
